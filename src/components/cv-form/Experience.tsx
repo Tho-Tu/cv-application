@@ -6,6 +6,7 @@ export default function Experience() {
     <div className="experience">
       <h2>Experience</h2>
       <form></form>
+      <button>+ Experience</button>
     </div>
   );
 }

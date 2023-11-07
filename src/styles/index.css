@@ -9,13 +9,22 @@
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --clr-text: #000000;
+  --clr-surface: #ffffff;
+  --clr-primary: #2840af;
+  --clr-secondary: #d9cdf4;
+  --clr-accent: #2d97c8;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --ff-base: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  --fs-300: clamp(1.125rem, calc(1.0815rem + 0.2174vw), 1.25rem);
+  --fs-400: clamp(1.35rem, calc(1.2048rem + 0.7261vw), 1.7675rem);
+  --fs-500: clamp(1.62rem, calc(1.3141rem + 1.5293vw), 2.4994rem);
+  --fs-600: clamp(1.9438rem, calc(1.3907rem + 2.7652vw), 3.5338rem);
+  --fs-700: clamp(2.3325rem, calc(1.4058rem + 4.6337vw), 4.9969rem);
+  --fs-800: clamp(2.7994rem, calc(1.3155rem + 7.4196vw), 7.0656rem);
+
+  font-weight: 400;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -31,22 +40,33 @@ img {
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--clr-secondary);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--clr-primary);
 }
 
 body {
-  /* display: flex;
-  min-width: 100vh;
-  min-height: 100vh; */
+  font-family: var(--ff-base);
+  font-size: var(--fs-300);
+  background-color: var(--clr-surface);
+  color: var(--clr-text);
+  line-height: 1.6;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: var(--fs-600);
   line-height: 1.1;
+}
+
+h2 {
+  font-size: var(--fs-500);
+  color: var(--clr-primary);
+}
+
+h3 {
+  font-size: var(--fs-400);
 }
 
 button {
@@ -56,27 +76,19 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--clr-accent);
+  color: var(--clr-surface);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--clr-primary);
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+::marker {
+  color: var(--clr-accent);
 }
