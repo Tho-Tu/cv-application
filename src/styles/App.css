@@ -5,23 +5,41 @@ header {
   color: var(--clr-surface);
   text-align: center;
   padding: 2rem 0;
+  width: 100vw;
 }
 
 main {
   display: flex;
-  justify-content: center;
-  gap: min(5rem, 10vw);
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
   width: 100vw;
-  margin: 2rem 0;
+  margin: 1.5rem 0;
+  padding: 0 max(2rem, 10vw);
 }
 
-label {
+input {
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  font-family: var(--ff-base);
+  font-size: var(--fs-300);
+  padding: 0.4rem;
+  border: 1px solid;
+  border-radius: 4px;
 }
 
-.cv-form {
+input:hover {
+  border: 2px solid var(--clr-primary);
+}
+
+.cv-form,
+.cv-preview {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 1.5rem;
+  min-width: 480px;
 }
 
 .general-info form {
@@ -31,7 +49,8 @@ label {
 
 .general-info,
 .education,
-.experience {
+.experience,
+.cv-preview {
   background-color: var(--clr-surface);
   border: 1px solid var(--clr-secondary);
   border-radius: 8px;
