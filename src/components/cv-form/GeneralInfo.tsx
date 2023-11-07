@@ -63,7 +63,14 @@ export default function GeneralInfo() {
             onChange={handleAddress}
           ></input>
         </label>
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+        >
+          Submit
+        </button>
       </form>
     </div>
   );

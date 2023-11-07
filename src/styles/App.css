@@ -12,10 +12,10 @@ main {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 5vw;
   width: 100vw;
   margin: 1.5rem 0;
-  padding: 0 max(2rem, 10vw);
+  padding: 0 10vw;
 }
 
 input {
@@ -45,15 +45,22 @@ input:hover {
 .general-info form {
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
 .general-info,
 .education,
-.experience,
+.experience {
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-secondary);
+  border-radius: 4px;
+  padding: var(--fs-400);
+  box-shadow: 5px 5px 8px var(--clr-primary);
+}
+
 .cv-preview {
   background-color: var(--clr-surface);
   border: 1px solid var(--clr-secondary);
-  border-radius: 8px;
   padding: var(--fs-400);
   box-shadow: 5px 5px 8px var(--clr-primary);
 }
