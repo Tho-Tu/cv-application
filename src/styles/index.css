@@ -1,3 +1,13 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -14,6 +24,11 @@
   -webkit-text-size-adjust: 100%;
 }
 
+img {
+  max-width: 100%;
+  display: block;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -24,11 +39,9 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  /* display: flex;
+  min-width: 100vh;
+  min-height: 100vh; */
 }
 
 h1 {

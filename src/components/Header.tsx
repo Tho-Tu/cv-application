@@ -1,9 +1,5 @@
 // import { useState } from "react";
 
 export default function Header() {
-  return (
-    <>
-      <form></form>
-    </>
-  );
+  return <header>CV Application</header>;
 }
