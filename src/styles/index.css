@@ -50,7 +50,7 @@ a:hover {
 
 body {
   font-family: var(--ff-base);
-  font-size: var(--fs-300);
+  font-size: var(--fs-200);
   background-color: var(--clr-surface);
   color: var(--clr-text);
   line-height: 1.6;
@@ -62,12 +62,12 @@ h1 {
 }
 
 h2 {
-  font-size: var(--fs-500);
+  font-size: var(--fs-400);
   color: var(--clr-primary);
 }
 
 h3 {
-  font-size: var(--fs-400);
+  font-size: var(--fs-300);
 }
 
 button {
@@ -77,19 +77,22 @@ button {
   cursor: pointer;
   width: fit-content;
   border-radius: 4px;
-  border: 1px solid;
-  padding: 1rem 2rem;
-  font-size: var(--fs-300);
+  border: 0 transparent;
+  padding: 0.8rem 1.8rem;
+  font-size: var(--fs-200);
   font-family: var(--ff-base);
   background-color: var(--clr-accent);
   color: var(--clr-surface);
 }
 
 button:hover {
-  background-color: rgb(16, 110, 190);
-  border: 1px solid rgb(16, 110, 190);
+  background-color: var(--clr-primary);
 }
 
 button:active {
   transform: translateY(2px);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--clr-text);
 }
