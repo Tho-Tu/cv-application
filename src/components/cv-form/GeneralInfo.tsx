@@ -39,7 +39,7 @@ export default function GeneralInfo() {
         <label>
           Email
           <input
-            type="text"
+            type="email"
             placeholder="Email"
             value={email}
             onChange={handleEmail}
@@ -48,7 +48,7 @@ export default function GeneralInfo() {
         <label>
           Phone number
           <input
-            type="text"
+            type="number"
             placeholder="Phone number"
             value={phoneNumber}
             onChange={handlePhoneNumber}
@@ -63,14 +63,6 @@ export default function GeneralInfo() {
             onChange={handleAddress}
           ></input>
         </label>
-        <button
-          type="submit"
-          onClick={(e) => {
-            e.preventDefault();
-          }}
-        >
-          Submit
-        </button>
       </form>
     </div>
   );

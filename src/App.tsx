@@ -5,11 +5,23 @@ import CvPreview from "./components/cv-preview/CvPreview";
 import Header from "./components/Header";
 
 function App() {
+  const [generalInfo, setGeneralInfo] = useState({});
+  const [education, setEducation] = useState([]);
+  const [experience, setExperience] = useState([]);
+
+  const handleGeneralInfo = (e) => {
+    setGeneralInfo(e.target.value);
+  };
+
   return (
     <>
       <Header />
       <main>
-        <CvForm />
+        <CvForm
+          generalInfo={generalInfo}
+          education={education}
+          experience={experience}
+        />
         <CvPreview />
       </main>
     </>

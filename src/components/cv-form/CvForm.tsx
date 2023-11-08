@@ -8,10 +8,10 @@ export default function CvForm() {
   const [text, setText] = useState("");
   return (
     <section className="cv-form">
+      <Example />
       <GeneralInfo />
       <Education />
       <Experience />
-      <Example />
     </section>
   );
 }
