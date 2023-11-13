@@ -7,7 +7,7 @@ export default function Education() {
   const handleButton = () => {
     setEducationList((prevEducationList) => [
       ...prevEducationList,
-      emptyFormFactory(),
+      emptyEducationFormFactory(),
     ]);
     console.log(educationList);
   };
@@ -24,7 +24,7 @@ export default function Education() {
   );
 }
 
-function emptyFormFactory() {
+function emptyEducationFormFactory() {
   const school = "";
   const degree = "";
   const startDate = "";

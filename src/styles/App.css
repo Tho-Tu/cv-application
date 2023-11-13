@@ -35,15 +35,19 @@ input:focus {
 .cv-form,
 .cv-preview {
   display: flex;
-  flex: 1;
   flex-direction: column;
   gap: 1.5rem;
-  min-width: 480px;
-  max-width: 780px;
 }
 
 .cv-form {
+  flex: 0.8;
   max-width: 600px;
+}
+
+.cv-preview {
+  flex: 1;
+  min-width: 580px;
+  max-width: 780px;
 }
 
 .general-info form,
