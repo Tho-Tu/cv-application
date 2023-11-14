@@ -92,6 +92,21 @@ form {
 .cv-preview {
   background-color: var(--clr-surface);
   border: 1px solid var(--clr-secondary);
-  padding: var(--fs-400);
   box-shadow: 5px 5px 8px var(--clr-primary);
+}
+
+.preview-general-info {
+  background-color: var(--clr-secondary);
+  padding: var(--fs-400);
+  height: fit-content;
+}
+
+.preview-education {
+  padding: var(--fs-400);
+  height: fit-content;
+}
+
+.preview-experience {
+  padding: var(--fs-400);
+  height: fit-content;
 }

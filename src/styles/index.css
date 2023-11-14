@@ -8,6 +8,10 @@
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --clr-text: #000000;
   --clr-surface: #ffffff;
