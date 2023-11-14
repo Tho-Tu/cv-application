@@ -44,6 +44,11 @@ input:focus {
   max-width: 600px;
 }
 
+.forms {
+  padding: 0 0 1rem 0;
+  border-bottom: 2px solid var(--clr-primary);
+}
+
 .cv-preview {
   flex: 1;
   min-width: 580px;
