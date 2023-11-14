@@ -4,14 +4,14 @@ import Experience from "./Experience";
 import GeneralInfo from "./GeneralInfo";
 import Example from "./Example";
 
-export default function CvForm() {
+export default function CvForm({ generalInfo, education, experience }) {
   const [text, setText] = useState("");
   return (
     <section className="cv-form">
       <Example />
-      <GeneralInfo />
-      <Education />
-      <Experience />
+      <GeneralInfo generalInfo={generalInfo} />
+      <Education education={education} />
+      <Experience experience={experience} />
     </section>
   );
 }

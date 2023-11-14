@@ -1,6 +1,6 @@
 import { SetStateAction, useState } from "react";
 
-export default function GeneralInfo() {
+export default function GeneralInfo({ generalInfo }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setphoneNumber] = useState("");
