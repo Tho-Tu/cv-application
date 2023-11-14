@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import LabelComponent from "./LabelComponent.tsx";
 
 export default function Education({ education }) {
   const [educationList, setEducationList] = useState([]);
@@ -76,21 +77,21 @@ function educationFormFactory() {
   return { school, degree, startDate, endDate, location, visible, id };
 }
 
-function LabelComponent({ name, value, handlerFunction }) {
-  return (
-    <>
-      <label>
-        {name}
-        <input
-          type="text"
-          placeholder={name}
-          value={value}
-          onChange={handlerFunction}
-        ></input>
-      </label>
-    </>
-  );
-}
+// function LabelComponent({ name, value, handlerFunction }) {
+//   return (
+//     <>
+//       <label>
+//         {name}
+//         <input
+//           type="text"
+//           placeholder={name}
+//           value={value}
+//           onChange={handlerFunction}
+//         ></input>
+//       </label>
+//     </>
+//   );
+// }
 
 function EducationForm({ saveButton, deleteButton }) {
   const [school, setSchool] = useState("");

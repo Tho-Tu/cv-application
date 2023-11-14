@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import LabelComponent from "./LabelComponent";
 
 export default function Experience({ experience }) {
   const [experienceList, setExperienceList] = useState([]);
@@ -88,60 +89,36 @@ function SingleExperienceComponent() {
   return (
     <>
       <form>
-        <label>
-          Company Name
-          <input
-            type="text"
-            placeholder="Company Name"
-            value={companyName}
-            onChange={handleCompanyName}
-          ></input>
-        </label>
-        <label>
-          Position Title
-          <input
-            type="text"
-            placeholder="Position Title"
-            value={positionTitle}
-            onChange={handlePositionTitle}
-          ></input>
-        </label>
-        <label>
-          Start Date
-          <input
-            type="text"
-            placeholder="Start Date"
-            value={startDate}
-            onChange={handleStartDate}
-          ></input>
-        </label>
-        <label>
-          End Date
-          <input
-            type="text"
-            placeholder="End Date"
-            value={endDate}
-            onChange={handleEndDate}
-          ></input>
-        </label>
-        <label>
-          Location
-          <input
-            type="text"
-            placeholder="End Date"
-            value={location}
-            onChange={handleLocation}
-          ></input>
-        </label>
-        <label>
-          Description
-          <input
-            type="text"
-            placeholder="Description"
-            value={description}
-            onChange={handleDescription}
-          ></input>
-        </label>
+        <LabelComponent
+          name={"Company Name"}
+          value={companyName}
+          handlerFunction={handleCompanyName}
+        />
+        <LabelComponent
+          name={"Position Title"}
+          value={positionTitle}
+          handlerFunction={handlePositionTitle}
+        />
+        <LabelComponent
+          name={"Start Date"}
+          value={startDate}
+          handlerFunction={handleStartDate}
+        />
+        <LabelComponent
+          name={"End Date"}
+          value={endDate}
+          handlerFunction={handleEndDate}
+        />
+        <LabelComponent
+          name={"Location"}
+          value={location}
+          handlerFunction={handleLocation}
+        />
+        <LabelComponent
+          name={"Description"}
+          value={description}
+          handlerFunction={handleDescription}
+        />
       </form>
     </>
   );
