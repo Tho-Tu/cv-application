@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function PreviewEducation() {
+export default function PreviewEducation({ educationInfo }) {
   const [text, setText] = useState("");
   return (
     <div className="preview-education">

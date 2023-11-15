@@ -2,10 +2,11 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import LabelComponent from "./LabelComponent.tsx";
 
-export default function Education({ education }) {
+export default function Education({ educationInfo }) {
   const [educationList, setEducationList] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // SAVE BUTTON
   const handleSaveButton = (educationObject) => {
     const newEducation = { ...educationObject };
     setEducationList((prevEducationList) => [
@@ -16,6 +17,7 @@ export default function Education({ education }) {
     console.log(educationList);
   };
 
+  // DELETE BUTTON
   const handleDeleteButton = () => {
     const newEducationList = educationList.splice(activeIndex, 1);
     setEducationList(newEducationList);
@@ -23,6 +25,7 @@ export default function Education({ education }) {
     console.log(educationList);
   };
 
+  // ADD NEW EDUCATION BUTTON
   const handleNewButton = () => {
     setEducationList((prevEducationList) => [
       ...prevEducationList,
@@ -39,6 +42,7 @@ export default function Education({ education }) {
         educationList={educationList}
         saveButton={() => handleSaveButton(educationFormFactory())}
         deleteButton={handleDeleteButton}
+        isActive={activeIndex}
       />
       <button type="button" onClick={handleNewButton}>
         + Education
@@ -47,13 +51,30 @@ export default function Education({ education }) {
   );
 }
 
-function EducationListComponent({ educationList, saveButton, deleteButton }) {
+function educationFormFactory(
+  school = "",
+  degree = "",
+  startDate = "",
+  endDate = "",
+  location = "",
+  visible = true,
+  id = uuidv4()
+) {
+  return { school, degree, startDate, endDate, location, visible, id };
+}
+
+function EducationListComponent({
+  educationList,
+  saveButton,
+  deleteButton,
+  isActive,
+}) {
   if (educationList.length === 0) {
     return <></>;
   }
 
-  return educationList.map((education) => {
-    if (education.visible === true) {
+  return educationList.map((education, index) => {
+    if (index === isActive) {
       return (
         <EducationForm
           key={education.id}
@@ -62,36 +83,10 @@ function EducationListComponent({ educationList, saveButton, deleteButton }) {
         />
       );
     }
+
+    return <EducationNotVisible key={education.id} education={education} />;
   });
 }
-
-function educationFormFactory() {
-  const school = "";
-  const degree = "";
-  const startDate = "";
-  const endDate = "";
-  const location = "";
-  const visible = true;
-  const id = uuidv4();
-
-  return { school, degree, startDate, endDate, location, visible, id };
-}
-
-// function LabelComponent({ name, value, handlerFunction }) {
-//   return (
-//     <>
-//       <label>
-//         {name}
-//         <input
-//           type="text"
-//           placeholder={name}
-//           value={value}
-//           onChange={handlerFunction}
-//         ></input>
-//       </label>
-//     </>
-//   );
-// }
 
 function EducationForm({ saveButton, deleteButton }) {
   const [school, setSchool] = useState("");
@@ -159,6 +154,17 @@ function EducationForm({ saveButton, deleteButton }) {
           </button>{" "}
         </span>
       </form>
+    </>
+  );
+}
+
+function EducationNotVisible({ education }) {
+  return (
+    <>
+      <div className="education-not-visible">
+        {education.school === "" ? "No name" : education.school}
+        <button type="button">Show</button>
+      </div>
     </>
   );
 }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import LabelComponent from "./LabelComponent";
 
-export default function Experience({ experience }) {
+export default function Experience({ experienceInfo }) {
   const [experienceList, setExperienceList] = useState([]);
 
   const handleButton = () => {

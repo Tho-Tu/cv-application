@@ -74,6 +74,12 @@ form {
   box-shadow: 5px 5px 8px var(--clr-primary);
 }
 
+.education-not-visible {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .example {
   display: flex;
   justify-content: space-evenly;

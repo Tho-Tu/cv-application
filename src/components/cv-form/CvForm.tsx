@@ -3,13 +3,13 @@ import Experience from "./Experience";
 import GeneralInfo from "./GeneralInfo";
 import Example from "./Example";
 
-export default function CvForm({ generalInfo, education, experience }) {
+export default function CvForm({ generalInfo, educationInfo, experienceInfo }) {
   return (
     <section className="cv-form">
       <Example />
       <GeneralInfo generalInfo={generalInfo} />
-      <Education education={education} />
-      <Experience experience={experience} />
+      <Education educationInfo={educationInfo} />
+      <Experience experienceInfo={experienceInfo} />
     </section>
   );
 }

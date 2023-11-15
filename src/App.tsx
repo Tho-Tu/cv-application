@@ -11,8 +11,8 @@ function App() {
     phoneNumber: "123 456 789",
     address: "132, My Street, Kingston, New York 12401",
   });
-  const [education, setEducation] = useState([]);
-  const [experience, setExperience] = useState([]);
+  const [educationInfo, setEducation] = useState([]);
+  const [experienceInfo, setExperience] = useState([]);
 
   // General Info Handlers
   const handleFullName = (e: { target: { value: SetStateAction<string> } }) => {
@@ -45,13 +45,13 @@ function App() {
             handlePhoneNumber,
             handleAddress,
           }}
-          education={education}
-          experience={experience}
+          educationInfo={educationInfo}
+          experienceInfo={experienceInfo}
         />
         <CvPreview
           generalInfo={generalInfo}
-          education={education}
-          experience={experience}
+          educationInfo={educationInfo}
+          experienceInfo={experienceInfo}
         />
       </main>
     </>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function PreviewExperience() {
+export default function PreviewExperience({ experienceInfo }) {
   const [text, setText] = useState("");
   return (
     <div className="preview-experience">
