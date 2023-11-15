@@ -35,6 +35,8 @@ export default function Education({ educationInfo }) {
     console.log(educationList);
   };
 
+  const activeIndexHandler = (index) => setActiveIndex(index);
+
   return (
     <div className="education">
       <h2>Education</h2>
@@ -43,6 +45,7 @@ export default function Education({ educationInfo }) {
         saveButton={() => handleSaveButton(educationFormFactory())}
         deleteButton={handleDeleteButton}
         isActive={activeIndex}
+        activeIndexHandler={activeIndexHandler}
       />
       <button type="button" onClick={handleNewButton}>
         + Education
@@ -57,10 +60,9 @@ function educationFormFactory(
   startDate = "",
   endDate = "",
   location = "",
-  visible = true,
   id = uuidv4()
 ) {
-  return { school, degree, startDate, endDate, location, visible, id };
+  return { school, degree, startDate, endDate, location, id };
 }
 
 function EducationListComponent({
@@ -68,6 +70,7 @@ function EducationListComponent({
   saveButton,
   deleteButton,
   isActive,
+  activeIndexHandler,
 }) {
   if (educationList.length === 0) {
     return <></>;
@@ -84,7 +87,14 @@ function EducationListComponent({
       );
     }
 
-    return <EducationNotVisible key={education.id} education={education} />;
+    return (
+      <EducationNotVisible
+        key={education.id}
+        education={education}
+        index={index}
+        activeIndexHandler={activeIndexHandler}
+      />
+    );
   });
 }
 
@@ -158,12 +168,14 @@ function EducationForm({ saveButton, deleteButton }) {
   );
 }
 
-function EducationNotVisible({ education }) {
+function EducationNotVisible({ education, index, activeIndexHandler }) {
   return (
     <>
       <div className="education-not-visible">
         {education.school === "" ? "No name" : education.school}
-        <button type="button">Show</button>
+        <button type="button" onClick={() => activeIndexHandler(index)}>
+          Show
+        </button>
       </div>
     </>
   );
