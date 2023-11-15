@@ -74,7 +74,8 @@ form {
   box-shadow: 5px 5px 8px var(--clr-primary);
 }
 
-.education-not-visible {
+.education-not-visible,
+.experience-not-visible {
   display: flex;
   justify-content: space-between;
   align-items: center;

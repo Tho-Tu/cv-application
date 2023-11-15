@@ -1,39 +1,88 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import LabelComponent from "./LabelComponent";
+import { act } from "react-dom/test-utils";
 
 export default function Experience({ experienceInfo }) {
   const [experienceList, setExperienceList] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleButton = () => {
+  const handleExperienceList = (activeIndex, property, eventValue) => {
+    const newExperienceList = [...experienceList];
+    newExperienceList[activeIndex][property] = eventValue;
+    setExperienceList(newExperienceList);
+  };
+
+  // SAVE BUTTON
+  const handleSaveButton = (
+    companyName,
+    positionTitle,
+    startDate,
+    endDate,
+    location,
+    description
+  ) => {
+    const newExperience = experienceFormFactory(
+      companyName,
+      positionTitle,
+      startDate,
+      endDate,
+      location,
+      description
+    );
+    setExperienceList((prevExperienceList) => {
+      prevExperienceList[activeIndex] = newExperience;
+      return prevExperienceList;
+    });
+  };
+
+  // DELETE BUTTON
+  const handleDeleteButton = (activeIndex) => {
+    const newExperienceList = experienceList;
+    newExperienceList.splice(activeIndex, 1);
+    setExperienceList(newExperienceList);
+  };
+
+  // ADD NEW EDUCATION BUTTON
+  const handleNewButton = () => {
     setExperienceList((prevEducationList) => [
       ...prevEducationList,
-      emptyExperienceFormFactory(),
+      experienceFormFactory(),
     ]);
-    console.log(experienceList);
+  };
+
+  // SET ACTIVE INDEX
+  const handleActiveIndex = (index) => {
+    setActiveIndex(index);
   };
 
   return (
     <div className="experience">
       <h2>Experience</h2>
-      <SingleExperienceComponent />
-      <button type="button" onClick={handleButton}>
+      <ExperienceListComponent
+        experienceList={experienceList}
+        activeIndex={activeIndex}
+        handleExperienceList={handleExperienceList}
+        handleSaveButton={handleSaveButton}
+        handleDeleteButton={handleDeleteButton}
+        handleActiveIndex={handleActiveIndex}
+      />
+      <button type="button" onClick={handleNewButton}>
         + Experience
       </button>
     </div>
   );
 }
 
-function emptyExperienceFormFactory() {
-  const companyName = "";
-  const positionTitle = "";
-  const startDate = "";
-  const endDate = "";
-  const location = "";
-  const description = "";
-  const visible = false;
-  const id = uuidv4();
-
+function experienceFormFactory(
+  companyName = "",
+  positionTitle = "",
+  startDate = "",
+  endDate = "",
+  location = "",
+  description = "",
+  id = uuidv4()
+) {
   return {
     companyName,
     positionTitle,
@@ -41,85 +90,143 @@ function emptyExperienceFormFactory() {
     endDate,
     location,
     description,
-    visible,
     id,
   };
 }
 
-function SingleExperienceComponent() {
-  const [companyName, setCompanyName] = useState("");
-  const [positionTitle, setPositionTitle] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [location, setLocation] = useState("");
-  const [description, setDescription] = useState("");
+function ExperienceListComponent({
+  experienceList,
+  activeIndex,
+  handleExperienceList,
+  handleSaveButton,
+  handleDeleteButton,
+  handleActiveIndex,
+}) {
+  if (experienceList.length <= 0) {
+    return <></>;
+  }
 
-  const handleCompanyName = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setCompanyName(e.target.value);
-  };
+  return experienceList.map((experience, index) => {
+    if (index === activeIndex) {
+      return (
+        <ExperienceForm
+          key={experience.id}
+          experienceList={experienceList}
+          activeIndex={activeIndex}
+          handleExperienceList={handleExperienceList}
+          handleSaveButton={handleSaveButton}
+          handleDeleteButton={() => handleDeleteButton(index)}
+          handleActiveIndex={handleActiveIndex}
+        />
+      );
+    }
 
-  const handlePositionTitle = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setPositionTitle(e.target.value);
-  };
+    return (
+      <ExperienceNotVisible
+        key={experience.id}
+        experience={experience}
+        index={index}
+        handleActiveIndex={handleActiveIndex}
+      />
+    );
+  });
+}
 
-  const handleStartDate = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setStartDate(e.target.value);
-  };
-
-  const handleEndDate = (e: { target: { value: SetStateAction<string> } }) => {
-    setEndDate(e.target.value);
-  };
-
-  const handleLocation = (e: { target: { value: SetStateAction<string> } }) => {
-    setLocation(e.target.value);
-  };
-
-  const handleDescription = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setDescription(e.target.value);
-  };
-
+function ExperienceForm({
+  experienceList,
+  activeIndex,
+  handleExperienceList,
+  handleSaveButton,
+  handleDeleteButton,
+  handleActiveIndex,
+}) {
   return (
     <>
-      <form>
+      <form className="forms">
         <LabelComponent
           name={"Company Name"}
-          value={companyName}
-          handlerFunction={handleCompanyName}
+          value={experienceList[activeIndex].companyName}
+          handlerFunction={(e) => {
+            handleExperienceList(activeIndex, "companyName", e.target.value);
+          }}
         />
         <LabelComponent
           name={"Position Title"}
-          value={positionTitle}
-          handlerFunction={handlePositionTitle}
+          value={experienceList[activeIndex].positionTitle}
+          handlerFunction={(e) =>
+            handleExperienceList(activeIndex, "positionTitle", e.target.value)
+          }
         />
         <LabelComponent
           name={"Start Date"}
-          value={startDate}
-          handlerFunction={handleStartDate}
+          value={experienceList[activeIndex].startDate}
+          handlerFunction={(e) =>
+            handleExperienceList(activeIndex, "startDate", e.target.value)
+          }
         />
         <LabelComponent
           name={"End Date"}
-          value={endDate}
-          handlerFunction={handleEndDate}
+          value={experienceList[activeIndex].endDate}
+          handlerFunction={(e) =>
+            handleExperienceList(activeIndex, "endDate", e.target.value)
+          }
         />
         <LabelComponent
           name={"Location"}
-          value={location}
-          handlerFunction={handleLocation}
+          value={experienceList[activeIndex].location}
+          handlerFunction={(e) =>
+            handleExperienceList(activeIndex, "location", e.target.value)
+          }
         />
         <LabelComponent
           name={"Description"}
-          value={description}
-          handlerFunction={handleDescription}
+          value={experienceList[activeIndex].description}
+          handlerFunction={(e) =>
+            handleExperienceList(activeIndex, "description", e.target.value)
+          }
         />
+        <span>
+          <button
+            type="button"
+            onClick={() => {
+              handleSaveButton(
+                experienceList[activeIndex].companyName,
+                experienceList[activeIndex].positionTitle,
+                experienceList[activeIndex].startDate,
+                experienceList[activeIndex].endDate,
+                experienceList[activeIndex].location,
+                experienceList[activeIndex].description,
+                activeIndex
+              );
+              handleActiveIndex(-1);
+            }}
+          >
+            Save
+          </button>{" "}
+          <button
+            type="button"
+            onClick={() => {
+              handleDeleteButton(activeIndex);
+              handleActiveIndex(-1);
+            }}
+          >
+            Delete
+          </button>
+        </span>
       </form>
+    </>
+  );
+}
+
+function ExperienceNotVisible({ experience, index, handleActiveIndex }) {
+  return (
+    <>
+      <div className="experience-not-visible">
+        {experience.companyName === "" ? "No name" : experience.companyName}
+        <button type="button" onClick={() => handleActiveIndex(index)}>
+          Show
+        </button>
+      </div>
     </>
   );
 }
