@@ -1,28 +1,64 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import LabelComponent from "./LabelComponent.tsx";
+import PreviewEducation from "../cv-preview/PreviewEducation.tsx";
 
 export default function Education({ educationInfo }) {
   const [educationList, setEducationList] = useState([]);
+  const [educationObject, setEducationObject] = useState({
+    school: "",
+    degree: "",
+    startDate: "",
+    endDate: "",
+    location: "",
+    id: uuidv4(),
+  });
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const handleSchool = (e: { target: { value: SetStateAction<string> } }) => {
+    setEducationObject({ ...educationObject, school: e.target.value });
+  };
+
+  const handleDegree = (e: { target: { value: SetStateAction<string> } }) => {
+    setEducationObject({ ...educationObject, degree: e.target.value });
+  };
+
+  const handleStartDate = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setEducationObject({ ...educationObject, startDate: e.target.value });
+  };
+
+  const handleEndDate = (e: { target: { value: SetStateAction<string> } }) => {
+    setEducationObject({ ...educationObject, endDate: e.target.value });
+  };
+
+  const handleLocation = (e: { target: { value: SetStateAction<string> } }) => {
+    setEducationObject({ ...educationObject, location: e.target.value });
+  };
+
   // SAVE BUTTON
-  const handleSaveButton = (educationObject) => {
-    const newEducation = { ...educationObject };
-    setEducationList((prevEducationList) => [
-      ...prevEducationList,
-      newEducation,
-    ]);
+  const handleSaveButton = (school, degree, startDate, endDate, location) => {
+    const newEducation = educationFormFactory(
+      school,
+      degree,
+      startDate,
+      endDate,
+      location
+    );
+    let previousEducationList = educationList;
+
+    prevEducationList[activeIndex] = newEducation;
+    setEducationList(previousEducationList);
 
     console.log(educationList);
   };
 
   // DELETE BUTTON
-  const handleDeleteButton = () => {
-    const newEducationList = educationList.splice(activeIndex, 1);
+  const handleDeleteButton = (activeIndex) => {
+    const newEducationList = educationList;
+    newEducationList.splice(activeIndex, 1);
     setEducationList(newEducationList);
-
-    console.log(educationList);
   };
 
   // ADD NEW EDUCATION BUTTON
@@ -31,21 +67,30 @@ export default function Education({ educationInfo }) {
       ...prevEducationList,
       educationFormFactory(),
     ]);
-
-    console.log(educationList);
   };
 
-  const activeIndexHandler = (index) => setActiveIndex(index);
+  const handleActiveIndex = (index) => {
+    setActiveIndex(index);
+    console.log(index);
+  };
+
+  console.log(educationList);
 
   return (
     <div className="education">
       <h2>Education</h2>
       <EducationListComponent
         educationList={educationList}
-        saveButton={() => handleSaveButton(educationFormFactory())}
-        deleteButton={handleDeleteButton}
-        isActive={activeIndex}
-        activeIndexHandler={activeIndexHandler}
+        educationObject={educationObject}
+        activeIndex={activeIndex}
+        handleSchool={handleSchool}
+        handleDegree={handleDegree}
+        handleStartDate={handleStartDate}
+        handleEndDate={handleEndDate}
+        handleLocation={handleLocation}
+        handleSaveButton={handleSaveButton}
+        handleDeleteButton={handleDeleteButton}
+        handleActiveIndex={handleActiveIndex}
       />
       <button type="button" onClick={handleNewButton}>
         + Education
@@ -67,22 +112,36 @@ function educationFormFactory(
 
 function EducationListComponent({
   educationList,
-  saveButton,
-  deleteButton,
-  isActive,
-  activeIndexHandler,
+  educationObject,
+  activeIndex,
+  handleSchool,
+  handleDegree,
+  handleStartDate,
+  handleEndDate,
+  handleLocation,
+  handleSaveButton,
+  handleDeleteButton,
+  handleActiveIndex,
 }) {
-  if (educationList.length === 0) {
+  if (educationList.length <= 0) {
     return <></>;
   }
 
   return educationList.map((education, index) => {
-    if (index === isActive) {
+    if (index === activeIndex) {
       return (
         <EducationForm
           key={education.id}
-          saveButton={saveButton}
-          deleteButton={deleteButton}
+          educationObject={educationObject}
+          activeIndex={activeIndex}
+          handleSchool={handleSchool}
+          handleDegree={handleDegree}
+          handleStartDate={handleStartDate}
+          handleEndDate={handleEndDate}
+          handleLocation={handleLocation}
+          handleSaveButton={handleSaveButton}
+          handleDeleteButton={() => handleDeleteButton(index)}
+          handleActiveIndex={handleActiveIndex}
         />
       );
     }
@@ -92,74 +151,75 @@ function EducationListComponent({
         key={education.id}
         education={education}
         index={index}
-        activeIndexHandler={activeIndexHandler}
+        handleActiveIndex={handleActiveIndex}
       />
     );
   });
 }
 
-function EducationForm({ saveButton, deleteButton }) {
-  const [school, setSchool] = useState("");
-  const [degree, setDegree] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [location, setLocation] = useState("");
-
-  const handleSchool = (e: { target: { value: SetStateAction<string> } }) => {
-    setSchool(e.target.value);
-  };
-
-  const handleDegree = (e: { target: { value: SetStateAction<string> } }) => {
-    setDegree(e.target.value);
-  };
-
-  const handleStartDate = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setStartDate(e.target.value);
-  };
-
-  const handleEndDate = (e: { target: { value: SetStateAction<string> } }) => {
-    setEndDate(e.target.value);
-  };
-
-  const handleLocation = (e: { target: { value: SetStateAction<string> } }) => {
-    setLocation(e.target.value);
-  };
-
+function EducationForm({
+  educationObject,
+  activeIndex,
+  handleSchool,
+  handleDegree,
+  handleStartDate,
+  handleEndDate,
+  handleLocation,
+  handleSaveButton,
+  handleDeleteButton,
+  handleActiveIndex,
+}) {
   return (
     <>
       <form className="forms">
         <LabelComponent
           name="School"
-          value={school}
+          value={educationObject.school}
           handlerFunction={handleSchool}
         />
         <LabelComponent
           name="Degree"
-          value={degree}
+          value={educationObject.degree}
           handlerFunction={handleDegree}
         />
         <LabelComponent
           name="Start Date"
-          value={startDate}
+          value={educationObject.startDate}
           handlerFunction={handleStartDate}
         />
         <LabelComponent
           name="End Date"
-          value={endDate}
+          value={educationObject.endDate}
           handlerFunction={handleEndDate}
         />
         <LabelComponent
           name="Location"
-          value={location}
+          value={educationObject.location}
           handlerFunction={handleLocation}
         />
         <span>
-          <button type="button" onClick={saveButton}>
+          <button
+            type="button"
+            onClick={() => {
+              handleSaveButton(
+                educationObject.school,
+                educationObject.degree,
+                educationObject.startDate,
+                educationObject.endDate,
+                educationObject.location
+              );
+              handleActiveIndex(-1);
+            }}
+          >
             Save
           </button>{" "}
-          <button type="button" onClick={deleteButton}>
+          <button
+            type="button"
+            onClick={() => {
+              handleDeleteButton(activeIndex);
+              handleActiveIndex(-1);
+            }}
+          >
             Delete
           </button>{" "}
         </span>
@@ -168,12 +228,12 @@ function EducationForm({ saveButton, deleteButton }) {
   );
 }
 
-function EducationNotVisible({ education, index, activeIndexHandler }) {
+function EducationNotVisible({ education, index, handleActiveIndex }) {
   return (
     <>
       <div className="education-not-visible">
         {education.school === "" ? "No name" : education.school}
-        <button type="button" onClick={() => activeIndexHandler(index)}>
+        <button type="button" onClick={() => handleActiveIndex(index)}>
           Show
         </button>
       </div>

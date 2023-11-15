@@ -87,7 +87,7 @@ button {
   font-family: var(--ff-base);
   background-color: var(--clr-accent);
   color: var(--clr-surface);
-  margin: 12px 0 0 0;
+  margin: 8px 0;
 }
 
 button:hover {

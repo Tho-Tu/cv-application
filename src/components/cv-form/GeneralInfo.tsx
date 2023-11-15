@@ -2,28 +2,6 @@ import { SetStateAction, useState } from "react";
 import LabelComponent from "./LabelComponent";
 
 export default function GeneralInfo({ generalInfo }) {
-  // const [fullName, setFullName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phoneNumber, setphoneNumber] = useState("");
-  // const [address, setAddress] = useState("");
-
-  // const handleFullName = (e: { target: { value: SetStateAction<string> } }) => {
-  //   setFullName(e.target.value);
-  // };
-
-  // const handleEmail = (e: { target: { value: SetStateAction<string> } }) => {
-  //   setEmail(e.target.value);
-  // };
-
-  // const handlePhoneNumber = (e: {
-  //   target: { value: SetStateAction<string> };
-  // }) => {
-  //   setphoneNumber(e.target.value);
-  // };
-
-  // const handleAddress = (e: { target: { value: SetStateAction<string> } }) => {
-  //   setAddress(e.target.value);
-  // };
   return (
     <div className="general-info">
       <h2>General Info</h2>
