@@ -5,11 +5,14 @@ export default function PreviewEducation({ educationInfo }) {
   return (
     <div className="preview-education">
       <h2>Education</h2>
-      <div className="education-school">University for the Real World</div>
-      <div className="education-degree">Bachelor of Commerce</div>
-      <div className="education-start-date">08/2021 -</div>
-      <div className="education-end-date">present</div>
-      <div className="education-location">New York City, US</div>
+      <div className="single-education">
+        <div className="education-start-date">
+          08/2021 - <span className="education-end-date">present</span>
+        </div>
+        <div className="education-school">University for the Real World</div>
+        <div className="education-location">New York City, US</div>
+        <div className="education-degree">Bachelor of Commerce</div>
+      </div>
     </div>
   );
 }
