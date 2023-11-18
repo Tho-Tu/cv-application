@@ -1,18 +1,29 @@
-import { useState } from "react";
-
 export default function PreviewEducation({ educationInfo }) {
-  const [text, setText] = useState("");
   return (
-    <div className="preview-education">
-      <h2>Education</h2>
-      <div className="single-education">
-        <div className="education-start-date">
-          08/2021 - <span className="education-end-date">present</span>
-        </div>
-        <div className="education-school">University for the Real World</div>
-        <div className="education-location">New York City, US</div>
-        <div className="education-degree">Bachelor of Commerce</div>
+    <>
+      <div className="preview-education">
+        <h2>Education</h2>
+        {educationInfo.map((education) => {
+          return (
+            <>
+              <div className="single-education">
+                <div className="education-date">
+                  <span className="education-start-date">
+                    {education.startDate}
+                  </span>{" "}
+                  -{" "}
+                  <span className="education-end-date">
+                    {education.endDate}
+                  </span>
+                </div>
+                <div className="education-school">{education.school}</div>
+                <div className="education-location">{education.location}</div>
+                <div className="education-degree">{education.degree} </div>
+              </div>
+            </>
+          );
+        })}
       </div>
-    </div>
+    </>
   );
 }

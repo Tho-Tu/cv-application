@@ -1,86 +1,22 @@
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import LabelComponent from "./LabelComponent.tsx";
-import PreviewEducation from "../cv-preview/PreviewEducation.tsx";
 
 export default function Education({ educationInfo }) {
-  const [educationList, setEducationList] = useState([]);
-  const [activeEducationIndex, setActiveEducationIndex] = useState(0);
-
-  const handleEducationList = (activeEducationIndex, property, eventValue) => {
-    const newEducationList = [...educationList];
-    newEducationList[activeEducationIndex][property] = eventValue;
-    setEducationList(newEducationList);
-  };
-  // SAVE BUTTON
-  const handleSaveButton = (
-    school,
-    degree,
-    startDate,
-    endDate,
-    location,
-    activeEducationIndex
-  ) => {
-    const newEducation = educationFormFactory(
-      school,
-      degree,
-      startDate,
-      endDate,
-      location
-    );
-    setEducationList((prevEducationList) => {
-      prevEducationList[activeEducationIndex] = newEducation;
-      return prevEducationList;
-    });
-  };
-
-  // DELETE BUTTON
-  const handleDeleteButton = (activeEducationIndex) => {
-    const newEducationList = educationList;
-    newEducationList.splice(activeEducationIndex, 1);
-    setEducationList(newEducationList);
-  };
-
-  // ADD NEW EDUCATION BUTTON
-  const handleNewButton = () => {
-    setEducationList((prevEducationList) => [
-      ...prevEducationList,
-      educationFormFactory(),
-    ]);
-  };
-
-  // SET ACTIVE INDEX
-  const handleActiveEducationIndex = (index) => {
-    setActiveEducationIndex(index);
-  };
-
   return (
     <div className="education">
       <h2>Education</h2>
       <EducationListComponent
-        educationList={educationList}
-        activeEducationIndex={activeEducationIndex}
-        handleEducationList={handleEducationList}
-        handleSaveButton={handleSaveButton}
-        handleDeleteButton={handleDeleteButton}
-        handleActiveEducationIndex={handleActiveEducationIndex}
+        educationList={educationInfo.educationList}
+        activeEducationIndex={educationInfo.activeEducationIndex}
+        handleEducationList={educationInfo.handleEducationList}
+        handleSaveButton={educationInfo.handleSaveButton}
+        handleDeleteButton={educationInfo.handleDeleteButton}
+        handleActiveEducationIndex={educationInfo.handleActiveEducationIndex}
       />
-      <button type="button" onClick={handleNewButton}>
+      <button type="button" onClick={educationInfo.handleNewButton}>
         + Education
       </button>
     </div>
   );
-}
-
-function educationFormFactory(
-  school = "",
-  degree = "",
-  startDate = "",
-  endDate = "",
-  location = "",
-  id = uuidv4()
-) {
-  return { school, degree, startDate, endDate, location, id };
 }
 
 function EducationListComponent({
