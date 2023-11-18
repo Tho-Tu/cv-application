@@ -8,24 +8,24 @@ export default function GeneralInfo({ generalInfo }) {
       <form>
         <LabelComponent
           name={"Full Name"}
-          value={generalInfo.fullName}
+          value={generalInfo.generalInfo.fullName}
           handlerFunction={generalInfo.handleFullName}
         />
         <LabelComponent
           name={"Email"}
           type={"email"}
-          value={generalInfo.email}
+          value={generalInfo.generalInfo.email}
           handlerFunction={generalInfo.handleEmail}
         />
         <LabelComponent
           name={"Phone number"}
           type={"number"}
-          value={generalInfo.phoneNumber}
+          value={generalInfo.generalInfo.phoneNumber}
           handlerFunction={generalInfo.handlePhoneNumber}
         />
         <LabelComponent
           name={"Address"}
-          value={generalInfo.address}
+          value={generalInfo.generalInfo.address}
           handlerFunction={generalInfo.handleAddress}
         />
       </form>
