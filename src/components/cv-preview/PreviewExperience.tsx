@@ -1,27 +1,37 @@
-import { useState } from "react";
-
 export default function PreviewExperience({ experienceInfo }) {
-  const [text, setText] = useState("");
   return (
-    <div className="preview-experience">
-      <h2>Experience</h2>
-      <div className="single-experience">
-        <div className="experience-start-date">
-          08/2022 - <span className="experience-end-date">present</span>
-        </div>
-        <div className="experience-company-name">Google</div>
-        <div className="experience-location">New York City, US</div>
-
-        <div className="experience-position-title">
-          Software Engineer, Intern
-        </div>
-        <div className="experience-description">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-          placeat nulla ea possimus at sapiente magni voluptatem enim cupiditate
-          fugiat, aspernatur quam distinctio blanditiis vero obcaecati
-          perspiciatis animi consectetur quos!
-        </div>
+    <>
+      <div className="preview-experience">
+        <h2>Experience</h2>
+        {experienceInfo.map((experience) => {
+          return (
+            <>
+              <div className="single-experience">
+                <div className="experience-date">
+                  <span className="experience-start-date">
+                    {experience.startDate}
+                  </span>{" "}
+                  -{" "}
+                  <span className="experience-end-date">
+                    {experience.endDate}
+                  </span>
+                </div>
+                <div className="experience-company-name">
+                  {experience.companyName}
+                </div>
+                <div className="experience-location">{experience.location}</div>
+                <div className="experience-position-title">
+                  {experience.positionTitle}{" "}
+                </div>
+                <div className="experience-description">
+                  {experience.description}
+                </div>
+              </div>
+              <br></br>
+            </>
+          );
+        })}
       </div>
-    </div>
+    </>
   );
 }
