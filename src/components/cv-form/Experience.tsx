@@ -3,98 +3,22 @@ import { v4 as uuidv4 } from "uuid";
 import LabelComponent from "./LabelComponent";
 
 export default function Experience({ experienceInfo }) {
-  const [experienceList, setExperienceList] = useState([]);
-  const [activeExperienceIndex, setActiveExperienceIndex] = useState(0);
-
-  const handleExperienceList = (
-    activeExperienceIndex,
-    property,
-    eventValue
-  ) => {
-    const newExperienceList = [...experienceList];
-    newExperienceList[activeExperienceIndex][property] = eventValue;
-    setExperienceList(newExperienceList);
-  };
-
-  // SAVE BUTTON
-  const handleSaveButton = (
-    companyName,
-    positionTitle,
-    startDate,
-    endDate,
-    location,
-    description
-  ) => {
-    const newExperience = experienceFormFactory(
-      companyName,
-      positionTitle,
-      startDate,
-      endDate,
-      location,
-      description
-    );
-    setExperienceList((prevExperienceList) => {
-      prevExperienceList[activeExperienceIndex] = newExperience;
-      return prevExperienceList;
-    });
-  };
-
-  // DELETE BUTTON
-  const handleDeleteButton = (activeExperienceIndex) => {
-    const newExperienceList = experienceList;
-    newExperienceList.splice(activeExperienceIndex, 1);
-    setExperienceList(newExperienceList);
-  };
-
-  // ADD NEW EDUCATION BUTTON
-  const handleNewButton = () => {
-    setExperienceList((prevEducationList) => [
-      ...prevEducationList,
-      experienceFormFactory(),
-    ]);
-  };
-
-  // SET ACTIVE INDEX
-  const handleActiveExperienceIndex = (index) => {
-    setActiveExperienceIndex(index);
-  };
-
   return (
     <div className="experience">
       <h2>Experience</h2>
       <ExperienceListComponent
-        experienceList={experienceList}
-        activeExperienceIndex={activeExperienceIndex}
-        handleExperienceList={handleExperienceList}
-        handleSaveButton={handleSaveButton}
-        handleDeleteButton={handleDeleteButton}
-        handleActiveExperienceIndex={handleActiveExperienceIndex}
+        experienceList={experienceInfo.experienceList}
+        activeExperienceIndex={experienceInfo.activeExperienceIndex}
+        handleExperienceList={experienceInfo.handleExperienceList}
+        handleSaveButton={experienceInfo.handleExpSaveButton}
+        handleDeleteButton={experienceInfo.handleExpDeleteButton}
+        handleActiveExperienceIndex={experienceInfo.handleActiveExperienceIndex}
       />
-      <button type="button" onClick={handleNewButton}>
+      <button type="button" onClick={experienceInfo.handleExpNewButton}>
         + Experience
       </button>
     </div>
   );
-}
-
-function experienceFormFactory(
-  companyName = "",
-  positionTitle = "",
-  startDate = "",
-  endDate = "",
-  location = "",
-  description = "",
-  id = uuidv4()
-) {
-  return {
-    companyName,
-    positionTitle,
-    startDate,
-    endDate,
-    location,
-    description,
-    id,
-  };
 }
 
 function ExperienceListComponent({

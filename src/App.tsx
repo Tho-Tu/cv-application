@@ -35,8 +35,45 @@ function App() {
     },
   ]);
   const [activeEducationIndex, setActiveEducationIndex] = useState(-1);
+  const [experienceList, setExperienceList] = useState([
+    {
+      companyName: "The Cool Company",
+      positionTitle: "Software Engineer, Intern",
+      startDate: "08/2018",
+      endDate: "02/2019",
+      location: "New York City, US",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere placeat nulla ea possimus at sapiente magni voluptatem enim cupiditate fugiat, aspernatur quam distinctio blanditiis vero obcaecati perspiciatis animi consectetur quos!",
+      id: uuidv4(),
+    },
+    {
+      companyName: "The Rocket Company",
+      positionTitle: "Software Engineer",
+      startDate: "08/2022",
+      endDate: "present",
+      location: "Area 52, US",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere placeat nulla ea possimus at sapiente magni voluptatem enim cupiditate fugiat, aspernatur quam distinctio blanditiis vero obcaecati perspiciatis animi consectetur quos!",
+      id: uuidv4(),
+    },
+  ]);
+  const [activeExperienceIndex, setActiveExperienceIndex] = useState(-1);
 
-  const [experienceInfo, setExperience] = useState([]);
+  // General Info Handlers
+  const handleFullName = (e: { target: { value: SetStateAction<string> } }) => {
+    setGeneralInfo({ ...generalInfo, fullName: e.target.value });
+  };
+  const handleEmail = (e: { target: { value: SetStateAction<string> } }) => {
+    setGeneralInfo({ ...generalInfo, email: e.target.value });
+  };
+  const handlePhoneNumber = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setGeneralInfo({ ...generalInfo, phoneNumber: e.target.value });
+  };
+  const handleAddress = (e: { target: { value: SetStateAction<string> } }) => {
+    setGeneralInfo({ ...generalInfo, address: e.target.value });
+  };
 
   // Education Info Handlers
   const handleEducationList = (activeEducationIndex, property, eventValue) => {
@@ -79,22 +116,52 @@ function App() {
     setActiveEducationIndex(index);
   };
 
-  // General Info Handlers
-  const handleFullName = (e: { target: { value: SetStateAction<string> } }) => {
-    setGeneralInfo({ ...generalInfo, fullName: e.target.value });
+  // Experience Info Handlers
+  const handleExperienceList = (
+    activeExperienceIndex,
+    property,
+    eventValue
+  ) => {
+    const newExperienceList = [...experienceList];
+    newExperienceList[activeExperienceIndex][property] = eventValue;
+    setExperienceList(newExperienceList);
   };
-  const handleEmail = (e: { target: { value: SetStateAction<string> } }) => {
-    setGeneralInfo({ ...generalInfo, email: e.target.value });
-  };
-  const handlePhoneNumber = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setGeneralInfo({ ...generalInfo, phoneNumber: e.target.value });
-  };
-  const handleAddress = (e: { target: { value: SetStateAction<string> } }) => {
-    setGeneralInfo({ ...generalInfo, address: e.target.value });
+  const handleExpSaveButton = (
+    companyName,
+    positionTitle,
+    startDate,
+    endDate,
+    location,
+    description
+  ) => {
+    const newExperience = experienceFormFactory(
+      companyName,
+      positionTitle,
+      startDate,
+      endDate,
+      location,
+      description
+    );
+    setExperienceList((prevExperienceList) => {
+      prevExperienceList[activeExperienceIndex] = newExperience;
+      return prevExperienceList;
+    });
   };
 
+  const handleExpDeleteButton = (activeExperienceIndex) => {
+    const newExperienceList = experienceList;
+    newExperienceList.splice(activeExperienceIndex, 1);
+    setExperienceList(newExperienceList);
+  };
+  const handleExpNewButton = () => {
+    setExperienceList((prevEducationList) => [
+      ...prevEducationList,
+      experienceFormFactory(),
+    ]);
+  };
+  const handleActiveExperienceIndex = (index) => {
+    setActiveExperienceIndex(index);
+  };
   return (
     <>
       <Header />
@@ -116,12 +183,20 @@ function App() {
             handleNewButton,
             handleActiveEducationIndex,
           }}
-          experienceInfo={experienceInfo}
+          experienceInfo={{
+            experienceList,
+            activeExperienceIndex,
+            handleExperienceList,
+            handleExpSaveButton,
+            handleExpDeleteButton,
+            handleExpNewButton,
+            handleActiveExperienceIndex,
+          }}
         />
         <CvPreview
           generalInfo={generalInfo}
           educationInfo={educationList}
-          experienceInfo={experienceInfo}
+          experienceInfo={experienceList}
         />
       </main>
     </>
