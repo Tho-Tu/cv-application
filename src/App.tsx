@@ -59,6 +59,67 @@ function App() {
   ]);
   const [activeExperienceIndex, setActiveExperienceIndex] = useState(-1);
 
+  // Load example / clear CV Handlers
+  const handleLoadExample = () => {
+    setGeneralInfo({
+      fullName: "Taylor Swift",
+      email: "taylorswift@email.com",
+      phoneNumber: 123456789,
+      address: "132, My Street, Kingston, New York 12401",
+    });
+    setEducationList([
+      {
+        school: "University for the Real World",
+        degree: "Bachelor of Science (Physics)",
+        startDate: "08/2017",
+        endDate: "08/2021",
+        location: "New York City, US",
+        id: uuidv4(),
+      },
+      {
+        school: "Mars Graduate University",
+        degree: "PhD in Rocket Science",
+        startDate: "08/2021",
+        endDate: "Present",
+        location: "Mars City, MA",
+        id: uuidv4(),
+      },
+    ]);
+    setExperienceList([
+      {
+        companyName: "The Cool Company",
+        positionTitle: "Software Engineer, Intern",
+        startDate: "08/2018",
+        endDate: "02/2019",
+        location: "New York City, US",
+        description:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere placeat nulla ea possimus at sapiente magni voluptatem enim cupiditate fugiat, aspernatur quam distinctio blanditiis vero obcaecati perspiciatis animi consectetur quos!",
+        id: uuidv4(),
+      },
+      {
+        companyName: "The Rocket Company",
+        positionTitle: "Software Engineer",
+        startDate: "08/2022",
+        endDate: "present",
+        location: "Area 52, US",
+        description:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere placeat nulla ea possimus at sapiente magni voluptatem enim cupiditate fugiat, aspernatur quam distinctio blanditiis vero obcaecati perspiciatis animi consectetur quos!",
+        id: uuidv4(),
+      },
+    ]);
+  };
+
+  const handleClearCv = () => {
+    setGeneralInfo({
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+      address: "",
+    });
+    setEducationList([]);
+    setExperienceList([]);
+  };
+
   // General Info Handlers
   const handleFullName = (e: { target: { value: SetStateAction<string> } }) => {
     setGeneralInfo({ ...generalInfo, fullName: e.target.value });
@@ -167,6 +228,7 @@ function App() {
       <Header />
       <main>
         <CvForm
+          exampleInfo={{ handleClearCv, handleLoadExample }}
           generalInfo={{
             generalInfo,
             handleFullName,
