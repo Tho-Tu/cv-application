@@ -8,7 +8,7 @@ Real-time Visualization: Users can input, edit, and delete their CV information 
 
 🚀 Demo
 
-Explore the live demo of the project: CV Generator Demo
+Explore the live demo of the project: https://cv-generator-nq4p.onrender.com/
 
 🧐 Project Highlights:
 
