@@ -1,8 +1,41 @@
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { Key } from "react";
 import LabelComponent from "./LabelComponent";
 
-export default function Experience({ experienceInfo }) {
+interface ExperienceProps {
+  experienceInfo: {
+    experienceList: ExperienceData[];
+    activeExperienceIndex: number;
+    handleExperienceList: (
+      activeExperienceIndex: number,
+      property: keyof ExperienceData,
+      eventValue: string
+    ) => void;
+    handleExpSaveButton: (
+      companyName: string | undefined,
+      positionTitle: string | undefined,
+      startDate: string | undefined,
+      endDate: string | undefined,
+      location: string | undefined,
+      description: string | undefined,
+      activeExperienceIndex: string | number
+    ) => void;
+    handleExpDeleteButton: (activeExperienceIndex: number) => void;
+    handleActiveExperienceIndex: (index: number) => void;
+    handleExpNewButton: () => void;
+  };
+}
+
+export interface ExperienceData {
+  companyName: string;
+  positionTitle: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  description: string;
+  id: string;
+}
+
+export default function Experience({ experienceInfo }: ExperienceProps) {
   return (
     <div className="experience">
       <h2>Experience</h2>
@@ -21,6 +54,35 @@ export default function Experience({ experienceInfo }) {
   );
 }
 
+interface ExperienceListComponentProps {
+  experienceList: {
+    companyName: string;
+    positionTitle: string;
+    startDate: string;
+    endDate: string;
+    location: string;
+    description: string;
+    id: string;
+  }[];
+  activeExperienceIndex: number;
+  handleExperienceList: (
+    activeExperienceIndex: number,
+    property: keyof ExperienceData,
+    eventValue: string
+  ) => void;
+  handleSaveButton: (
+    companyName: string | undefined,
+    positionTitle: string | undefined,
+    startDate: string | undefined,
+    endDate: string | undefined,
+    location: string | undefined,
+    description: string | undefined,
+    activeExperienceIndex: string | number
+  ) => void;
+  handleDeleteButton: (activeExperienceIndex: number) => void;
+  handleActiveExperienceIndex: (index: number) => void;
+}
+
 function ExperienceListComponent({
   experienceList,
   activeExperienceIndex,
@@ -28,35 +90,59 @@ function ExperienceListComponent({
   handleSaveButton,
   handleDeleteButton,
   handleActiveExperienceIndex,
-}) {
+}: ExperienceListComponentProps) {
   if (experienceList.length <= 0) {
     return <></>;
   }
 
-  return experienceList.map((experience, index) => {
-    if (index === activeExperienceIndex) {
+  return experienceList.map(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (experience: { id: Key | null | undefined }, index: any) => {
+      if (index === activeExperienceIndex) {
+        return (
+          <ExperienceForm
+            key={experience.id}
+            experienceList={experienceList}
+            activeExperienceIndex={activeExperienceIndex}
+            handleExperienceList={handleExperienceList}
+            handleSaveButton={handleSaveButton}
+            handleDeleteButton={() => handleDeleteButton(index)}
+            handleActiveExperienceIndex={handleActiveExperienceIndex}
+          />
+        );
+      }
+
       return (
-        <ExperienceForm
+        <ExperienceNotVisible
           key={experience.id}
-          experienceList={experienceList}
-          activeExperienceIndex={activeExperienceIndex}
-          handleExperienceList={handleExperienceList}
-          handleSaveButton={handleSaveButton}
-          handleDeleteButton={() => handleDeleteButton(index)}
+          experience={experience}
+          index={index}
           handleActiveExperienceIndex={handleActiveExperienceIndex}
         />
       );
     }
+  );
+}
 
-    return (
-      <ExperienceNotVisible
-        key={experience.id}
-        experience={experience}
-        index={index}
-        handleActiveExperienceIndex={handleActiveExperienceIndex}
-      />
-    );
-  });
+interface ExperienceFormProps {
+  experienceList: ExperienceData[];
+  activeExperienceIndex: number;
+  handleExperienceList: (
+    activeExperienceIndex: number,
+    property: keyof ExperienceData,
+    eventValue: string
+  ) => void;
+  handleSaveButton: (
+    companyName: string | undefined,
+    positionTitle: string | undefined,
+    startDate: string | undefined,
+    endDate: string | undefined,
+    location: string | undefined,
+    description: string | undefined,
+    activeExperienceIndex: number
+  ) => void;
+  handleDeleteButton: (activeExperienceIndex: number) => void;
+  handleActiveExperienceIndex: (index: number) => void;
 }
 
 function ExperienceForm({
@@ -66,14 +152,14 @@ function ExperienceForm({
   handleSaveButton,
   handleDeleteButton,
   handleActiveExperienceIndex,
-}) {
+}: ExperienceFormProps) {
   return (
     <>
       <form className="forms">
         <LabelComponent
           name={"Company Name"}
           value={experienceList[activeExperienceIndex].companyName}
-          handlerFunction={(e) => {
+          handlerFunction={(e: { target: { value: string } }) => {
             handleExperienceList(
               activeExperienceIndex,
               "companyName",
@@ -84,7 +170,7 @@ function ExperienceForm({
         <LabelComponent
           name={"Position Title"}
           value={experienceList[activeExperienceIndex].positionTitle}
-          handlerFunction={(e) =>
+          handlerFunction={(e: { target: { value: string } }) =>
             handleExperienceList(
               activeExperienceIndex,
               "positionTitle",
@@ -95,7 +181,7 @@ function ExperienceForm({
         <LabelComponent
           name={"Start Date"}
           value={experienceList[activeExperienceIndex].startDate}
-          handlerFunction={(e) =>
+          handlerFunction={(e: { target: { value: string } }) =>
             handleExperienceList(
               activeExperienceIndex,
               "startDate",
@@ -106,7 +192,7 @@ function ExperienceForm({
         <LabelComponent
           name={"End Date"}
           value={experienceList[activeExperienceIndex].endDate}
-          handlerFunction={(e) =>
+          handlerFunction={(e: { target: { value: string } }) =>
             handleExperienceList(
               activeExperienceIndex,
               "endDate",
@@ -117,7 +203,7 @@ function ExperienceForm({
         <LabelComponent
           name={"Location"}
           value={experienceList[activeExperienceIndex].location}
-          handlerFunction={(e) =>
+          handlerFunction={(e: { target: { value: string } }) =>
             handleExperienceList(
               activeExperienceIndex,
               "location",
@@ -128,7 +214,7 @@ function ExperienceForm({
         <LabelComponent
           name={"Description"}
           value={experienceList[activeExperienceIndex].description}
-          handlerFunction={(e) =>
+          handlerFunction={(e: { target: { value: string } }) =>
             handleExperienceList(
               activeExperienceIndex,
               "description",
@@ -169,22 +255,43 @@ function ExperienceForm({
   );
 }
 
+interface CompanyExperience {
+  companyName: string;
+  positionTitle: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  description: string;
+  id: string;
+}
+
+interface ExperienceNotVisibleProps {
+  experience: CompanyExperience | { id: Key | null | undefined };
+  index: number;
+  handleActiveExperienceIndex: (index: number) => void;
+}
+
+function isCompanyExperience(
+  experience: CompanyExperience | { id: Key | null | undefined }
+): experience is CompanyExperience {
+  return "companyName" in experience;
+}
+
 function ExperienceNotVisible({
   experience,
   index,
   handleActiveExperienceIndex,
-}) {
+}: ExperienceNotVisibleProps) {
+  if (!isCompanyExperience(experience)) {
+    return <div className="experience-not-visible">No name</div>;
+  }
+
   return (
-    <>
-      <div className="experience-not-visible">
-        {experience.companyName === "" ? "No name" : experience.companyName}
-        <button
-          type="button"
-          onClick={() => handleActiveExperienceIndex(index)}
-        >
-          Show
-        </button>
-      </div>
-    </>
+    <div className="experience-not-visible">
+      {experience?.companyName === "" ? "No name" : experience?.companyName}
+      <button type="button" onClick={() => handleActiveExperienceIndex(index)}>
+        Show
+      </button>
+    </div>
   );
 }

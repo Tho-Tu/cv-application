@@ -1,4 +1,8 @@
-export default function Example({ exampleInfo }) {
+interface ExampleProps {
+  exampleInfo: { handleClearCv: () => void; handleLoadExample: () => void };
+}
+
+const Example: React.FC<ExampleProps> = ({ exampleInfo }) => {
   return (
     <div className="example">
       <button
@@ -13,4 +17,6 @@ export default function Example({ exampleInfo }) {
       </button>
     </div>
   );
-}
+};
+
+export default Example;

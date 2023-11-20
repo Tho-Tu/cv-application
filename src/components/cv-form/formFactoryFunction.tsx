@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuid4 } from "uuid";
 
 function educationFormFactory(
   school = "",
@@ -6,7 +6,7 @@ function educationFormFactory(
   startDate = "",
   endDate = "",
   location = "",
-  id = uuidv4()
+  id = uuid4()
 ) {
   return { school, degree, startDate, endDate, location, id };
 }
@@ -18,7 +18,7 @@ function experienceFormFactory(
   endDate = "",
   location = "",
   description = "",
-  id = uuidv4()
+  id = uuid4()
 ) {
   return {
     companyName,

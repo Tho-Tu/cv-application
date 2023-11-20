@@ -1,6 +1,38 @@
 import LabelComponent from "./LabelComponent.tsx";
 
-export default function Education({ educationInfo }) {
+interface EducationProps {
+  educationInfo: {
+    educationList: EducationData[];
+    activeEducationIndex: number;
+    handleEducationList: (
+      activeEducationIndex: number,
+      property: keyof EducationData,
+      eventValue: string
+    ) => void;
+    handleSaveButton: (
+      school: string | undefined,
+      degree: string | undefined,
+      startDate: string | undefined,
+      endDate: string | undefined,
+      location: string | undefined,
+      activeEducationIndex: number
+    ) => void;
+    handleDeleteButton: (activeEducationIndex: number) => void;
+    handleActiveEducationIndex: (index: number) => void;
+    handleNewButton: () => void;
+  };
+}
+
+export interface EducationData {
+  school: string;
+  degree: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  id: string;
+}
+
+export default function Education({ educationInfo }: EducationProps) {
   return (
     <div className="education">
       <h2>Education</h2>
@@ -19,6 +51,26 @@ export default function Education({ educationInfo }) {
   );
 }
 
+interface EducationListComponentProps {
+  educationList: EducationData[];
+  activeEducationIndex: number;
+  handleEducationList: (
+    activeEducationIndex: number,
+    property: keyof EducationData,
+    eventValue: string
+  ) => void;
+  handleSaveButton: (
+    school: string | undefined,
+    degree: string | undefined,
+    startDate: string | undefined,
+    endDate: string | undefined,
+    location: string | undefined,
+    activeEducationIndex: number
+  ) => void;
+  handleDeleteButton: (activeEducationIndex: number) => void;
+  handleActiveEducationIndex: (index: number) => void;
+}
+
 function EducationListComponent({
   educationList,
   activeEducationIndex,
@@ -26,7 +78,7 @@ function EducationListComponent({
   handleSaveButton,
   handleDeleteButton,
   handleActiveEducationIndex,
-}) {
+}: EducationListComponentProps) {
   if (educationList.length <= 0) {
     return <></>;
   }
@@ -57,6 +109,26 @@ function EducationListComponent({
   });
 }
 
+interface EducationFormProps {
+  educationList: EducationData[];
+  activeEducationIndex: number;
+  handleEducationList: (
+    activeEducationIndex: number,
+    property: keyof EducationData,
+    eventValue: string
+  ) => void;
+  handleSaveButton: (
+    school: string | undefined,
+    degree: string | undefined,
+    startDate: string | undefined,
+    endDate: string | undefined,
+    location: string | undefined,
+    activeEducationIndex: number
+  ) => void;
+  handleDeleteButton: (activeEducationIndex: number) => void;
+  handleActiveEducationIndex: (index: number) => void;
+}
+
 function EducationForm({
   educationList,
   activeEducationIndex,
@@ -64,28 +136,28 @@ function EducationForm({
   handleSaveButton,
   handleDeleteButton,
   handleActiveEducationIndex,
-}) {
+}: EducationFormProps) {
   return (
     <>
       <form className="forms">
         <LabelComponent
           name="School"
           value={educationList[activeEducationIndex].school}
-          handlerFunction={(e) =>
+          handlerFunction={(e: { target: { value: string } }) =>
             handleEducationList(activeEducationIndex, "school", e.target.value)
           }
         />
         <LabelComponent
           name="Degree"
           value={educationList[activeEducationIndex].degree}
-          handlerFunction={(e) =>
+          handlerFunction={(e: { target: { value: string } }) =>
             handleEducationList(activeEducationIndex, "degree", e.target.value)
           }
         />
         <LabelComponent
           name="Start Date"
           value={educationList[activeEducationIndex].startDate}
-          handlerFunction={(e) =>
+          handlerFunction={(e: { target: { value: string } }) =>
             handleEducationList(
               activeEducationIndex,
               "startDate",
@@ -96,14 +168,14 @@ function EducationForm({
         <LabelComponent
           name="End Date"
           value={educationList[activeEducationIndex].endDate}
-          handlerFunction={(e) =>
+          handlerFunction={(e: { target: { value: string } }) =>
             handleEducationList(activeEducationIndex, "endDate", e.target.value)
           }
         />
         <LabelComponent
           name="Location"
           value={educationList[activeEducationIndex].location}
-          handlerFunction={(e) =>
+          handlerFunction={(e: { target: { value: string } }) =>
             handleEducationList(
               activeEducationIndex,
               "location",
@@ -143,7 +215,17 @@ function EducationForm({
   );
 }
 
-function EducationNotVisible({ education, index, handleActiveEducationIndex }) {
+interface EducationNotVisibleProps {
+  education: EducationData;
+  index: number;
+  handleActiveEducationIndex: (index: number) => void;
+}
+
+function EducationNotVisible({
+  education,
+  index,
+  handleActiveEducationIndex,
+}: EducationNotVisibleProps) {
   return (
     <>
       <div className="education-not-visible">

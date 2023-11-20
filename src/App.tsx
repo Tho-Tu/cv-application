@@ -1,16 +1,20 @@
 import { useState } from "react";
 import "./styles/App.css";
-import CvForm from "./components/cv-form/CvForm";
+import CvForm, {
+  GeneralData,
+  EducationData,
+  ExperienceData,
+} from "./components/cv-form/CvForm";
 import CvPreview from "./components/cv-preview/CvPreview";
 import Header from "./components/Header";
 import {
   educationFormFactory,
   experienceFormFactory,
 } from "./components/cv-form/formFactoryFunction";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuid4 } from "uuid";
 
 function App() {
-  const [generalInfo, setGeneralInfo] = useState({
+  const [generalInfo, setGeneralInfo] = useState<GeneralData>({
     fullName: "Taylor Swift",
     email: "taylorswift@email.com",
     phoneNumber: 123456789,
@@ -23,7 +27,7 @@ function App() {
       startDate: "08/2017",
       endDate: "08/2021",
       location: "New York City, US",
-      id: uuidv4(),
+      id: uuid4(),
     },
     {
       school: "Mars Graduate University",
@@ -31,10 +35,10 @@ function App() {
       startDate: "08/2021",
       endDate: "Present",
       location: "Mars City, MA",
-      id: uuidv4(),
+      id: uuid4(),
     },
   ]);
-  const [activeEducationIndex, setActiveEducationIndex] = useState(-1);
+  const [activeEducationIndex, setActiveEducationIndex] = useState<number>(-1);
   const [experienceList, setExperienceList] = useState([
     {
       companyName: "The Cool Company",
@@ -44,7 +48,7 @@ function App() {
       location: "New York City, US",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere placeat nulla ea possimus at sapiente magni voluptatem enim cupiditate fugiat, aspernatur quam distinctio blanditiis vero obcaecati perspiciatis animi consectetur quos!",
-      id: uuidv4(),
+      id: uuid4(),
     },
     {
       companyName: "The Rocket Company",
@@ -54,10 +58,11 @@ function App() {
       location: "Area 52, US",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere placeat nulla ea possimus at sapiente magni voluptatem enim cupiditate fugiat, aspernatur quam distinctio blanditiis vero obcaecati perspiciatis animi consectetur quos!",
-      id: uuidv4(),
+      id: uuid4(),
     },
   ]);
-  const [activeExperienceIndex, setActiveExperienceIndex] = useState(-1);
+  const [activeExperienceIndex, setActiveExperienceIndex] =
+    useState<number>(-1);
 
   // Load example / clear CV Handlers
   const handleLoadExample = () => {
@@ -74,7 +79,7 @@ function App() {
         startDate: "08/2017",
         endDate: "08/2021",
         location: "New York City, US",
-        id: uuidv4(),
+        id: uuid4(),
       },
       {
         school: "Mars Graduate University",
@@ -82,7 +87,7 @@ function App() {
         startDate: "08/2021",
         endDate: "Present",
         location: "Mars City, MA",
-        id: uuidv4(),
+        id: uuid4(),
       },
     ]);
     setExperienceList([
@@ -94,7 +99,7 @@ function App() {
         location: "New York City, US",
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere placeat nulla ea possimus at sapiente magni voluptatem enim cupiditate fugiat, aspernatur quam distinctio blanditiis vero obcaecati perspiciatis animi consectetur quos!",
-        id: uuidv4(),
+        id: uuid4(),
       },
       {
         companyName: "The Rocket Company",
@@ -104,7 +109,7 @@ function App() {
         location: "Area 52, US",
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere placeat nulla ea possimus at sapiente magni voluptatem enim cupiditate fugiat, aspernatur quam distinctio blanditiis vero obcaecati perspiciatis animi consectetur quos!",
-        id: uuidv4(),
+        id: uuid4(),
       },
     ]);
   };
@@ -113,7 +118,7 @@ function App() {
     setGeneralInfo({
       fullName: "",
       email: "",
-      phoneNumber: "",
+      phoneNumber: null,
       address: "",
     });
     setEducationList([]);
@@ -121,34 +126,37 @@ function App() {
   };
 
   // General Info Handlers
-  const handleFullName = (e: { target: { value: SetStateAction<string> } }) => {
+  const handleFullName = (e: { target: { value: string } }) => {
     setGeneralInfo({ ...generalInfo, fullName: e.target.value });
   };
-  const handleEmail = (e: { target: { value: SetStateAction<string> } }) => {
+  const handleEmail = (e: { target: { value: string } }) => {
     setGeneralInfo({ ...generalInfo, email: e.target.value });
   };
   const handlePhoneNumber = (e: {
-    target: { value: SetStateAction<string> };
+    target: { value: string | number | null };
   }) => {
     setGeneralInfo({ ...generalInfo, phoneNumber: e.target.value });
   };
-  const handleAddress = (e: { target: { value: SetStateAction<string> } }) => {
+  const handleAddress = (e: { target: { value: string } }) => {
     setGeneralInfo({ ...generalInfo, address: e.target.value });
   };
 
   // Education Info Handlers
-  const handleEducationList = (activeEducationIndex, property, eventValue) => {
+  const handleEducationList = (
+    activeEducationIndex: number,
+    property: keyof EducationData,
+    eventValue: string
+  ) => {
     const newEducationList = [...educationList];
     newEducationList[activeEducationIndex][property] = eventValue;
     setEducationList(newEducationList);
   };
   const handleSaveButton = (
-    school,
-    degree,
-    startDate,
-    endDate,
-    location,
-    activeEducationIndex
+    school: string | undefined,
+    degree: string | undefined,
+    startDate: string | undefined,
+    endDate: string | undefined,
+    location: string | undefined
   ) => {
     const newEducation = educationFormFactory(
       school,
@@ -162,7 +170,7 @@ function App() {
       return prevEducationList;
     });
   };
-  const handleDeleteButton = (activeEducationIndex) => {
+  const handleDeleteButton = (activeEducationIndex: number) => {
     const newEducationList = educationList;
     newEducationList.splice(activeEducationIndex, 1);
     setEducationList(newEducationList);
@@ -173,27 +181,29 @@ function App() {
       educationFormFactory(),
     ]);
   };
-  const handleActiveEducationIndex = (index) => {
+  const handleActiveEducationIndex = (
+    index: number | ((prevIndex: number) => number)
+  ) => {
     setActiveEducationIndex(index);
   };
 
   // Experience Info Handlers
   const handleExperienceList = (
-    activeExperienceIndex,
-    property,
-    eventValue
+    activeExperienceIndex: number,
+    property: keyof ExperienceData,
+    eventValue: string
   ) => {
     const newExperienceList = [...experienceList];
     newExperienceList[activeExperienceIndex][property] = eventValue;
     setExperienceList(newExperienceList);
   };
   const handleExpSaveButton = (
-    companyName,
-    positionTitle,
-    startDate,
-    endDate,
-    location,
-    description
+    companyName: string | undefined,
+    positionTitle: string | undefined,
+    startDate: string | undefined,
+    endDate: string | undefined,
+    location: string | undefined,
+    description: string | undefined
   ) => {
     const newExperience = experienceFormFactory(
       companyName,
@@ -209,7 +219,7 @@ function App() {
     });
   };
 
-  const handleExpDeleteButton = (activeExperienceIndex) => {
+  const handleExpDeleteButton = (activeExperienceIndex: number) => {
     const newExperienceList = experienceList;
     newExperienceList.splice(activeExperienceIndex, 1);
     setExperienceList(newExperienceList);
@@ -220,7 +230,9 @@ function App() {
       experienceFormFactory(),
     ]);
   };
-  const handleActiveExperienceIndex = (index) => {
+  const handleActiveExperienceIndex = (
+    index: number | ((prevIndex: number) => number)
+  ) => {
     setActiveExperienceIndex(index);
   };
   return (
